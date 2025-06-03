@@ -1,77 +1,133 @@
+import React from 'react';
 import Link from "next/link";
-import MainLayout from "@/components/layouts/MainLayout";
+import { Carousel } from 'antd';
+import Image from 'next/image';
+
+const contentStyle: React.CSSProperties = {
+  height: '600px',
+  width: '100%',
+  position: 'relative',
+  objectFit: 'cover',
+};
 
 export default function Home() {
   return (
-    <MainLayout>
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-      </div>
+    <div className="flex flex-col min-h-screen">
+      {/* Navigation Bar */}
+      <nav className="bg-[#003366] text-white shadow-md">
+        <div className="container mx-auto px-4 flex items-center justify-between">
+          <div className="flex items-center py-2">
+            <Image src="/images/logo-IUH-ngang-trang-300x131-1.webp" alt="IUH Logo" width={150} height={65} className="h-16 w-auto" />
+            <div className="ml-4 flex flex-col items-center">
+              <div className="text-sm font-medium">THÀNH PHỐ HỒ CHÍ MINH</div>
+              <div className="font-bold text-lg tracking-wide">TRƯỜNG ĐẠI HỌC CÔNG NGHIỆP</div>
+            </div>
+          </div>
+          
+          <div className="hidden md:flex space-x-1">
+            <Link href="/internship" className="py-6 px-3 font-medium hover:text-blue-200 text-sm border-b-4 border-transparent hover:border-white transition">THỰC TẬP - TUYỂN DỤNG</Link>
+            <Link href="#" className="py-6 px-3 font-medium hover:text-blue-200 text-sm border-b-4 border-transparent hover:border-white transition">LỊCH KHÓA LUẬN</Link>
+            <Link href="#" className="py-6 px-3 font-medium hover:text-blue-200 text-sm border-b-4 border-transparent hover:border-white transition">ĐĂNG KÝ KHÓA LUẬN</Link>
+            <Link href="#" className="py-6 px-3 font-medium hover:text-blue-200 text-sm border-b-4 border-transparent hover:border-white transition">THÔNG TIN</Link>
+          </div>
+          
+          <div className="hidden md:block">
+            <Link href="/login" className="py-2 px-4 bg-blue-700 rounded-md font-medium hover:bg-blue-600 flex items-center transition text-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clipRule="evenodd" />
+              </svg>
+              ĐĂNG NHẬP
+            </Link>
+          </div>
+        </div>
+      </nav>
 
-      <div className="relative flex place-items-center">
-        <h1 className="text-4xl font-bold">Welcome to Next.js</h1>
-      </div>
+      {/* Main Content */}
+      <main className="flex-1">
+        {/* Carousel */}
+        <div className="w-full">
+          <Carousel 
+            autoplay={{ dotDuration: true }} 
+            autoplaySpeed={5000} 
+            effect="fade" 
+            dots={true}
+            className="carousel-custom"
+          >
+            <div>
+              <div style={contentStyle} className="relative">
+                <Image src="/images/sl01.webp" alt="Toàn cảnh khuôn viên Đại học Công nghiệp TP.HCM" fill style={{ objectFit: 'cover' }} priority />
+                <div className="absolute bottom-8 left-8 bg-black bg-opacity-60 text-white p-4 max-w-md rounded-sm">
+                  <h3 className="text-xl font-bold">Toàn cảnh khuôn viên Đại học Công nghiệp TP.HCM</h3>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div style={contentStyle} className="relative">
+                <Image src="/images/sl02.webp" alt="Slide 2" fill style={{ objectFit: 'cover' }} />
+                <div className="absolute bottom-8 left-8 bg-black bg-opacity-60 text-white p-4 max-w-md rounded-sm">
+                  <h3 className="text-xl font-bold">Cơ sở vật chất hiện đại</h3>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div style={contentStyle} className="relative">
+                <Image src="/images/sl03.webp" alt="Slide 3" fill style={{ objectFit: 'cover' }} />
+                <div className="absolute bottom-8 left-8 bg-black bg-opacity-60 text-white p-4 max-w-md rounded-sm">
+                  <h3 className="text-xl font-bold">Môi trường học tập chuyên nghiệp</h3>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div style={contentStyle} className="relative">
+                <Image src="/images/sl04.webp" alt="Slide 4" fill style={{ objectFit: 'cover' }} />
+                <div className="absolute bottom-8 left-8 bg-black bg-opacity-60 text-white p-4 max-w-md rounded-sm">
+                  <h3 className="text-xl font-bold">Hoạt động nghiên cứu và thực hành</h3>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div style={contentStyle} className="relative">
+                <Image src="/images/sl05.webp" alt="Slide 5" fill style={{ objectFit: 'cover' }} />
+                <div className="absolute bottom-8 left-8 bg-black bg-opacity-60 text-white p-4 max-w-md rounded-sm">
+                  <h3 className="text-xl font-bold">Trang thiết bị dạy học hiện đại</h3>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div style={contentStyle} className="relative">
+                <Image src="/images/sl06.webp" alt="Slide 6" fill style={{ objectFit: 'cover' }} />
+                <div className="absolute bottom-8 left-8 bg-black bg-opacity-60 text-white p-4 max-w-md rounded-sm">
+                  <h3 className="text-xl font-bold">Thư viện và không gian học tập</h3>
+                </div>
+              </div>
+            </div>
+          </Carousel>
+        </div>
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-3 lg:text-left">
-        <Link href="/about">About</Link>
-        <Link href="/step1">Step1</Link>
-        <a
-          href="https://nextjs.org/docs"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              &rarr;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              &rarr;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Learn about Next.js in an interactive course with quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              &rarr;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Explore the Next.js 14 template gallery.
-          </p>
-        </a>
-
-      </div>
-    </main>
-    </MainLayout>
+        {/* Info Strips */}
+        <div className="bg-[#b92025] text-white overflow-hidden">
+          <div className="container mx-auto relative">
+            <div className="flex py-3 whitespace-nowrap">
+              <div className="animate-marquee inline-block">
+                <span className="mx-4 font-medium">TRANG SINH VIÊN: THÔNG BÁO MỚI NHẤT VỀ ĐĂNG KÍ KHÓA LUẬN TỐT NGHIỆP</span>
+                <span className="mx-4 font-medium">•</span>
+                <span className="mx-4 font-medium">THỜI GIAN MỞ ĐĂNG KÝ NHÓM SINH VIÊN</span>
+                <span className="mx-4 font-medium">•</span>
+                <span className="mx-4 font-medium">TRANG QUẢN LÝ KHÓA LUẬN TỐT NGHIỆP KHOA CÔNG NGHỆ THÔNG TIN</span>
+                <span className="mx-4 font-medium">•</span>
+              </div>
+              <div className="animate-marquee inline-block absolute left-0">
+                <span className="mx-4 font-medium">TRANG SINH VIÊN: THÔNG BÁO MỚI NHẤT VỀ ĐĂNG KÍ KHÓA LUẬN TỐT NGHIỆP</span>
+                <span className="mx-4 font-medium">•</span>
+                <span className="mx-4 font-medium">THỜI GIAN MỞ ĐĂNG KÝ NHÓM SINH VIÊN</span>
+                <span className="mx-4 font-medium">•</span>
+                <span className="mx-4 font-medium">TRANG QUẢN LÝ KHÓA LUẬN TỐT NGHIỆP KHOA CÔNG NGHỆ THÔNG TIN</span>
+                <span className="mx-4 font-medium">•</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
   );
 }

@@ -1,17 +1,11 @@
-'use client';
-
 import Link from 'next/link';
 import Image from 'next/image';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser } from '@/lib/fontawesome';
-import { useRouter } from 'next/navigation';
 
 interface MainLayoutProps {
   children: React.ReactNode;
 }
 
 const MainLayout = ({ children }: MainLayoutProps) => {
-  const router = useRouter();
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header */}
@@ -55,15 +49,6 @@ const MainLayout = ({ children }: MainLayoutProps) => {
               </li>
             </ul>
           </nav>
-          
-          <div className="absolute right-4">
-            <button className="bg-[#0c50b5] rounded-sm shadow px-4 py-1.5 inline-flex items-center gap-2 hover:bg-[#08387f]/80 transition-colors duration-300 cursor-pointer">
-              <div className="text-white text-[10px] font-medium font-roboto uppercase" onClick={() => router.push('/login')}>
-                <FontAwesomeIcon icon={faUser} className="mr-1 w-3.5 h-3.5" />
-                Đăng nhập
-              </div>
-            </button>
-          </div>
         </div>
       </header>
 
