@@ -22,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.className} ${roboto.variable}`}>{children}</body>
+      <body suppressHydrationWarning className={`${inter.className} ${roboto.variable}`}>{children}</body>
     </html>
   );
 }
