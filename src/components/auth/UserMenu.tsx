@@ -4,13 +4,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@/lib/fontawesome';
-
-interface User {
-  id: number;
-  username: string;
-  name: string;
-  role: string;
-}
+import { authService } from '@/services/auth-service';
+import { User } from '@/types/User';
 
 export default function UserMenu() {
   const [user, setUser] = useState<User | null>(null);
@@ -19,29 +14,20 @@ export default function UserMenu() {
 
   // Lấy thông tin người dùng từ localStorage/sessionStorage khi component mount
   useEffect(() => {
-    const storedUser = localStorage.getItem('user') || sessionStorage.getItem('user');
+    const storedUser = authService.getUser();
     if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser));
-      } catch (error) {
-        console.error('Lỗi phân tích thông tin người dùng:', error);
-      }
+      setUser(storedUser);
     }
   }, []);
 
   // Xử lý đăng xuất
   const handleLogout = async () => {
     try {
-      // Gọi API đăng xuất (chỉ để tracking)
-      await fetch('/api/auth/logout', {
-        method: 'POST',
-      });
+      // Gọi API đăng xuất thông qua service
+      await authService.logout();
       
       // Xóa dữ liệu đăng nhập
-      localStorage.removeItem('authToken');
-      localStorage.removeItem('user');
-      sessionStorage.removeItem('authToken');
-      sessionStorage.removeItem('user');
+      authService.clearAuth();
       
       // Chuyển về trang đăng nhập
       router.push('/login');
@@ -93,7 +79,7 @@ export default function UserMenu() {
       >
         <div className="text-white text-[10px] font-medium font-roboto uppercase">
           <FontAwesomeIcon icon={faUser} className="mr-1 w-3.5 h-3.5" />
-          {user.name}
+          {user.full_name}
         </div>
       </button>
       
@@ -101,7 +87,7 @@ export default function UserMenu() {
       {isOpen && (
         <div className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="px-4 py-2 text-xs text-gray-500">
-            <div className="font-medium text-gray-900">{user.name}</div>
+            <div className="font-medium text-gray-900">{user.full_name}</div>
             <div>{translateRole(user.role)}</div>
           </div>
           <hr className="my-1" />

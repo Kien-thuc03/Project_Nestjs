@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
 import { User } from '@/types/User';
 
-const API_URL = process.env.API_URL;
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function POST(request: Request) {
   try {
-    const { email } = await request.json();
+    const { institutional_id } = await request.json();
 
     // Fetch users from external API
     const response = await fetch(API_URL + '/users');
@@ -17,13 +17,13 @@ export async function POST(request: Request) {
     const users = await response.json();
 
     // Kiểm tra email có tồn tại không
-    const user = users.find((u: User) => u.email === email);
+    const user = users.find((u: User) => u.institutional_id === institutional_id);
 
     if (!user) {
       return NextResponse.json(
         { 
           success: false, 
-          message: 'Không tìm thấy tài khoản với email này' 
+          message: 'Không tìm thấy tài khoản với institutional_id này' 
         },
         { status: 404 }
       );
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
     // Mock response để demo
     return NextResponse.json({
       success: true,
-      message: `Một email đã được gửi đến ${email} với hướng dẫn đặt lại mật khẩu`,
+      message: `Một email đã được gửi đến ${institutional_id} với hướng dẫn đặt lại mật khẩu`,
     });
   } catch (error) {
     console.error('Forgot password error:', error);

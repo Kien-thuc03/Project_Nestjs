@@ -5,11 +5,13 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faLock } from '@/lib/fontawesome';
+import { authService } from '@/services/auth-service';
+import axios, { AxiosError } from 'axios';
 
 export default function LoginForm() {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    username: '',
+    institutional_id: '',
     password: '',
     rememberMe: false,
   });
@@ -30,48 +32,52 @@ export default function LoginForm() {
     setError('');
 
     try {
-      // Gọi API đăng nhập
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          username: formData.username,
-          password: formData.password,
-          rememberMe: formData.rememberMe
-        }),
+      // Gọi API đăng nhập thông qua service
+      const data = await authService.login({
+        institutional_id: formData.institutional_id,
+        password: formData.password,
       });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Đăng nhập thất bại');
-      }
-
-      // Lưu thông tin đăng nhập vào localStorage hoặc sessionStorage
-      if (formData.rememberMe) {
-        localStorage.setItem('authToken', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-      } else {
-        sessionStorage.setItem('authToken', data.token);
-        sessionStorage.setItem('user', JSON.stringify(data.user));
-      }
+      // Lưu thông tin đăng nhập
+      authService.saveAuth(data.token, data.user, formData.rememberMe);
 
       // Chuyển hướng dựa vào role
       switch (data.user.role) {
-        case 'admin':
+        case 'ADMIN':
           router.push('/admin/dashboard');
           break;
-        case 'teacher':
+        case 'LECTURER':
           router.push('/teacher/dashboard');
           break;
-        case 'student':
+        case 'STUDENT':
           router.push('/student/dashboard');
+          break;
+        case 'DEAN':
+          router.push('/dean/dashboard');
+          break;
+        case 'VICE_DEAN':
+          router.push('/vice-dean/dashboard');
           break;
         default:
           router.push('/');
       }
-    } catch (err: any) {
-      setError(err.message || 'Có lỗi xảy ra khi đăng nhập');
+    } catch (err) {
+      let errorMessage = 'Có lỗi xảy ra khi đăng nhập';
+      
+      // Xử lý thông báo lỗi từ API
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      } else if (axios.isAxiosError(err)) {
+        const axiosError = err as AxiosError;
+        if (axiosError.response?.data && typeof axiosError.response.data === 'object') {
+          const responseData = axiosError.response.data as Record<string, unknown>;
+          if (typeof responseData.message === 'string') {
+            errorMessage = responseData.message;
+          }
+        }
+      }
+      
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -87,22 +93,22 @@ export default function LoginForm() {
       
       <div className="space-y-4">
         <div>
-          <label htmlFor="username" className="sr-only">
-            Tên đăng nhập
+          <label htmlFor="institutional_id" className="sr-only">
+            Mã số
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <FontAwesomeIcon icon={faUser} className="text-gray-400" />
             </div>
             <input
-              id="username"
-              name="username"
+              id="institutional_id"
+              name="institutional_id"
               type="text"
               required
-              value={formData.username}
+              value={formData.institutional_id}
               onChange={handleChange}
               className="appearance-none rounded-md relative block w-full pl-10 pr-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-              placeholder="Tên đăng nhập"
+              placeholder="Mã số cá nhân"
             />
           </div>
         </div>
