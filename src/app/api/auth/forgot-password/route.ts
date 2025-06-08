@@ -7,7 +7,7 @@ export async function POST(request: Request) {
   try {
     const { institutional_id } = await request.json();
 
-    // Fetch users from external API
+    // Fetch users from external API chưa xử lý
     const response = await fetch(API_URL + '/users');
     
     if (!response.ok) {
