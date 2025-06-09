@@ -38,14 +38,6 @@ export const authService = {
   },
 
   /**
-   * Lấy thông tin người dùng hiện tại
-   * @returns Thông tin người dùng
-   */
-  getCurrentUser: (): Promise<AuthResponse> => {
-    return apiClient.get<AuthResponse>('/auth/me');
-  },
-
-  /**
    * Đăng xuất người dùng
    * @returns Kết quả đăng xuất
    */
