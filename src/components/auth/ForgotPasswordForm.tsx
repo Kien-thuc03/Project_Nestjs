@@ -35,8 +35,8 @@ export default function ForgotPasswordForm() {
       setSuccess(true);
       setMessage(data.message);
       setEmail('');
-    } catch (err: any) {
-      setError(err.message || 'Có lỗi xảy ra khi xử lý yêu cầu');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Có lỗi xảy ra khi xử lý yêu cầu');
     } finally {
       setLoading(false);
     }
